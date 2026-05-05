@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarQuest | Find Opportunities</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Landing Page / Auth Section -->
+    <section id="landing-page" class="view active">
+        <div class="landing-nav">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i> ScholarQuest
+            </div>
+        </div>
+        <div class="landing-content">
+            <div class="pill-badge">🚀 Empowering students worldwide</div>
+            <h1>Unlock Your Future with <span class="highlight">ScholarQuest</span></h1>
+            <p>Discover scholarships, competitive internships, and hackathons all in one beautifully organized dashboard. Kickstart your career today.</p>
+            
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="signin">Sign In</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+                
+                <form id="auth-form" onsubmit="event.preventDefault(); submitAuth();">
+                    <div id="signup-name-field" style="display: none;">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe" id="name-input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="student@university.edu" id="email-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" id="password-input" required>
+                    </div>
+                    <div id="signup-confirm-field" style="display: none;">
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" placeholder="••••••••" id="confirm-password-input">
+                        </div>
+                    </div>
+                    <div id="auth-error" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 10px; display: none;"></div>
+                    <button type="submit" class="btn-primary" id="auth-submit-btn">Sign In</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Animated Background Elements -->
+        <div class="bg-shape circle-1"></div>
+        <div class="bg-shape circle-2"></div>
+        <div class="bg-shape blob"></div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard-page" class="view">
+        <nav class="top-nav">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i> ScholarQuest
+            </div>
+            <div class="nav-right">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="global-search" placeholder="Search opportunities...">
+                </div>
+                <div class="user-profile">
+                    <span id="user-greeting">Hi, Student</span>
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>Browse Opportunities</h2>
+                <div class="dashboard-tabs">
+                    <button class="dash-tab active" data-target="scholarships">
+                        <i class="fa-solid fa-award"></i> Scholarships
+                    </button>
+                    <button class="dash-tab" data-target="internships">
+                        <i class="fa-solid fa-briefcase"></i> Internships
+                    </button>
+                    <button class="dash-tab" data-target="hackathons">
+                        <i class="fa-solid fa-code"></i> Hackathons
+                    </button>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <select id="filter-category" class="filter-select">
+                    <option value="">All Categories</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="design">Design</option>
+                    <option value="business">Business</option>
+                </select>
+                <select id="filter-location" class="filter-select">
+                    <option value="">Any Location</option>
+                    <option value="remote">Remote</option>
+                    <option value="onsite">On-site</option>
+                </select>
+                <select id="filter-cgpa" class="filter-select">
+                    <option value="">Min CGPA</option>
+                    <option value="8.0">8.0+</option>
+                    <option value="7.0">7.0+</option>
+                </select>
+            </div>
+
+            <!-- Content Area -->
+            <div id="content-area" class="content-grid">
+                <!-- Cards injected via JS -->
+            </div>
+            
+            <div id="loading-spinner" class="spinner-container" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading opportunities...</p>
+            </div>
+        </main>
+    </section>
+
+    <!-- Template for a Card -->
+    <template id="card-template">
+        <div class="opp-card">
+            <div class="card-header">
+                <span class="status-tag">Open</span>
+                <button class="bookmark-btn"><i class="fa-regular fa-bookmark"></i></button>
+            </div>
+            <h3 class="card-title">Opportunity Title</h3>
+            <div class="card-company">Company / Org Name</div>
+            <div class="card-details">
+                <div class="detail-item"><i class="fa-solid fa-location-dot"></i> <span class="loc-text">Remote</span></div>
+                <div class="detail-item"><i class="fa-solid fa-clock"></i> <span class="deadline-text">Apply by May 30</span></div>
+                <div class="detail-item"><i class="fa-solid fa-wallet"></i> <span class="reward-text">$2000 Stipend</span></div>
+            </div>
+            <div class="card-eligibility">
+                <strong>Eligibility:</strong> <span class="eligibility-text">CS/IT Students, 8.0+ CGPA</span>
+            </div>
+            <div class="card-actions">
+                <button class="btn-outline view-details-btn">View Details</button>
+                <a href="#" target="_blank" class="btn-primary apply-now-btn">Apply Now</a>
+            </div>
+        </div>
+    </template>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
